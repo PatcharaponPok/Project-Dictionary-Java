@@ -172,7 +172,7 @@
     <collation id="160" parent="2" name="UKRAINIAN_UKRAINE"/>
     <collation id="161" parent="2" name="VIETNAMESE"/>
     <collation id="162" parent="2" name="VIETNAMESE_VIETNAM"/>
-    <sequence id="163" parent="4" name="SYSTEM_SEQUENCE_E287FDB8_3094_4957_9185_F910E687313A">
+    <sequence id="163" parent="4" name="SYSTEM_SEQUENCE_C4CBF941_A8B9_4A8E_A480_D70E678C9636">
       <ObjectId>5</ObjectId>
       <NameSurrogate>1</NameSurrogate>
       <SequenceIdentity>1</SequenceIdentity>

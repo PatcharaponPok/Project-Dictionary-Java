@@ -78,9 +78,11 @@ public class Dictionary {
             //fl_same = 0 The first and last are not same, fl_same = 1 The first and last are the same
             //Numbercha = count charecter in word
             // ex.7.1
+            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/words.txt"));
             ConnecDB con = new ConnecDB();
             String sql;
             int type;
+            //con.testConnect();
 
             while((line = reader.readLine()) != null){
                 int fl_same = 0;
@@ -91,6 +93,7 @@ public class Dictionary {
                     fl_same = 1;
                 }
                 sql = "NULL,'" + line + "'," + line.length() + "," + fl_same + "," + type;
+                System.out.println(sql);
                 con.insert(sql);
             }//while read line in file
             reader.close();

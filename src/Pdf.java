@@ -17,18 +17,18 @@ public class Pdf {
         try
         {
             ConnecDB con = new ConnecDB();
-            text = con.SelectWord();
-            String word ;
+            text = con.SelectWord(); // call function Query get word
+
             var doc = new Document(PageSize.A4);
-            PdfWriter.getInstance(doc, new FileOutputStream("Word.pdf"));
+            PdfWriter.getInstance(doc, new FileOutputStream("Word.pdf")); // define file name
             doc.open();
 
-            BaseFont baseFont = BaseFont.createFont(Thsarabun, BaseFont.WINANSI, BaseFont.EMBEDDED);
+            BaseFont baseFont = BaseFont.createFont(Thsarabun, BaseFont.WINANSI, BaseFont.EMBEDDED); // crate font
 
             Font font = new Font(baseFont, 18);
             for(int i=0;i<text.size();i++){
                 var txt = new Paragraph(text.get(i));
-                doc.add(txt);
+                doc.add(txt); // add value to pdf
                 txt.setFont(font);
             }
             doc.close();

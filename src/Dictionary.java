@@ -1,11 +1,6 @@
-import java.io.BufferedReader;
-import java.io.File; // Import the File class
-import java.io.FileNotFoundException; // Import this class to handle errors
-import java.io.FileReader; // Read file
-import java.io.PrintWriter; // Import this class to write file
-import java.util.ArrayList; // Array list
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.zip.ZipFile; // Zip File
 
 public class Dictionary {
 
@@ -15,9 +10,10 @@ public class Dictionary {
         ArrayList<Long> Sizefolder = new ArrayList<>();
         ArrayList<Long> SizeZip = new ArrayList<>();
         ArrayList<String> NameFile = new ArrayList<>();
+
         try {
             //ex.1 - 4
-            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/words.txt"));
+            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/word.txt"));
 
             int count = 1;
             String line;
@@ -42,13 +38,14 @@ public class Dictionary {
                     long size;
                     if (temp.isDirectory()) {
                         File dirs = new File(temp.getPath());
-                        size = ReportStep.CalulateSize(dirs); // sum size file in folder
+                        //size = ReportStep.CalulateSize(dirs); // sum size file in folder
+                        size = dirs.getTotalSpace();
                         NameFile.add(temp.getName());
-                        System.out.println("|\t"+ count++ + "\t|" + temp.getName() + "\t\t\t|" + ReportStep.FileSize(size) + "\t\t\t\t|");
+                        System.out.println("|\t"+ count++ + "\t|" + temp.getName() + "\t\t\t\t|" + ReportStep.FileSize(size) + "\t\t\t\t|");
                         Sizefolder.add(ReportStep.FileSize(size));
                     }
                 }
-                System.out.println("-------------------------------------------------------------------------");
+                System.out.println("-------------------------------------------------");
             }
             // finish code ex.5
 
@@ -59,18 +56,18 @@ public class Dictionary {
                     System.out.println("Entry "+ temp.getPath() + " Zipping to /Job-Java/Project/src/" + temp.getName() + ".zip");
                     zipDirectory.zipDirectory("/Job-Java/Project/src/DirWord/" + temp.getName(),"/Job-Java/Project/src/FileZip/" + temp.getName());// call funtion zip from class zip
                     System.out.println("Finish to zip file: " + temp.getName() + ".zip");
-                    ZipFile zip_file = new ZipFile("/Job-Java/Project/src/FileZip/" + temp.getName() + ".zip");
-                    long Szip = zip_file.size();
-                    SizeZip.add(Szip);
+                    File zip_file = new File("/Job-Java/Project/src/FileZip/" + temp.getName() + ".zip");
+                    long Szip = zip_file.getTotalSpace();
+                    SizeZip.add(ReportStep.FileSize(Szip));
                 }// end if
             }// end loop for
             //ZipFile.close();
 
             ReportStep.GetReportSize(6);
             for(int i = 0; i < SizeZip.size(); i++){
-                System.out.println("|\t"+ i + "\t|" + NameFile.get(i) + "\t\t\t|" + Sizefolder.get(i) + "\t\t\t\t\t|" + SizeZip.get(i) + "\t\t\t\t\t|\t\t" + (100 * SizeZip.get(i) / Sizefolder.get(i)) + "\t\t\t|");
+                System.out.println("|\t"+ i + "\t|" + NameFile.get(i) + "\t\t\t\t|" + Sizefolder.get(i) + "\t\t\t\t\t\t|" + SizeZip.get(i) + "\t\t\t\t\t|\t\t\t" + (100 * SizeZip.get(i) / Sizefolder.get(i)) + "\t\t\t\t\t|");
             }
-            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------------------------------------------------------");
             // finish ex.6
 
             //type 0 = The letters not same in word.
@@ -78,7 +75,7 @@ public class Dictionary {
             //fl_same = 0 The first and last are not same, fl_same = 1 The first and last are the same
             //Numbercha = count charecter in word
             // ex.7.1
-            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/words.txt"));
+            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/word.txt"));
             ConnecDB con = new ConnecDB();
             String sql;
             int type;
@@ -110,6 +107,11 @@ public class Dictionary {
             //ex.7.4
             con.Convert();
             //finish ex.7.4
+
+            //ex.8
+            Pdf Export = new Pdf();
+            Export.ExportPDF();
+            //ex.8
 
         } catch (FileNotFoundException e) {
             System.out.println("Operation failed");

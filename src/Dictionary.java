@@ -17,7 +17,7 @@ public class Dictionary {
         ArrayList<String> NameFile = new ArrayList<>();
         try {
             //ex.1 - 4
-            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/words.txt"));
+            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/test.txt"));
 
             int count = 1;
             String line;
@@ -59,7 +59,7 @@ public class Dictionary {
                     System.out.println("Entry "+ temp.getPath() + " Zipping to /Job-Java/Project/src/" + temp.getName() + ".zip");
                     zipDirectory.zipDirectory("/Job-Java/Project/src/DirWord/" + temp.getName(),"/Job-Java/Project/src/FileZip/" + temp.getName());// call funtion zip from class zip
                     System.out.println("Finish to zip file: " + temp.getName() + ".zip");
-                    ZipFile zip_file = new ZipFile("/Job-Java/Project/src/DirWord/" + temp.getName() + ".zip");
+                    ZipFile zip_file = new ZipFile("/Job-Java/Project/src/FileZip/" + temp.getName() + ".zip");
                     long Szip = zip_file.size();
                     SizeZip.add(Szip);
                 }// end if
@@ -78,7 +78,7 @@ public class Dictionary {
             //fl_same = 0 The first and last are not same, fl_same = 1 The first and last are the same
             //Numbercha = count charecter in word
             // ex.7.1
-            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/words.txt"));
+            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/test.txt"));
             ConnecDB con = new ConnecDB();
             String sql;
             int type;
@@ -93,7 +93,6 @@ public class Dictionary {
                     fl_same = 1;
                 }
                 sql = "NULL,'" + line + "'," + line.length() + "," + fl_same + "," + type;
-                System.out.println(sql);
                 con.insert(sql);
             }//while read line in file
             reader.close();

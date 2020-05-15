@@ -98,8 +98,11 @@ public class ConnecDB {
             stmt = conn.createStatement();
             String sql = "select count(id) as countCha from word where numberchar > 5";
             ResultSet result = stmt.executeQuery(sql);
-            int count = result.getInt("countCha");
-            System.out.println("Word count longer than 5 character " + count);
+
+            if (result.next()) {
+                int count = result.getInt("countCha");
+                System.out.println("Word count longer than 5 character is " + count);
+            }
 
             // STEP 4: Clean-up environment
             stmt.close();
@@ -136,8 +139,10 @@ public class ConnecDB {
             stmt = conn.createStatement();
             String sql = "select count(id) as countSame from word where fl_same = 1";
             ResultSet result = stmt.executeQuery(sql);
-            int count = result.getInt("countSame");
-            System.out.println("Words beginning and ending with the same letter " + count);
+            if (result.next()){
+                int count = result.getInt("countSame");
+                System.out.println("Words beginning and ending with the same letter is " + count);
+            }
 
             // STEP 4: Clean-up environment
             stmt.close();
@@ -174,8 +179,11 @@ public class ConnecDB {
             stmt = conn.createStatement();
             String sql = "select count(id) as countSame from word where type = 1";
             ResultSet result = stmt.executeQuery(sql);
-            int count = result.getInt("countSame");
-            System.out.println("Words with more than 2 characters of the same character in the word " + count);
+
+            if(result.next()){
+                int count = result.getInt("countSame");
+                System.out.println("Words with more than 2 characters of the same character in the word is" + count);
+            }
 
             // STEP 4: Clean-up environment
             stmt.close();
@@ -217,7 +225,7 @@ public class ConnecDB {
             ResultSet result = stmt.executeQuery(sql);
             while(result.next()){
                 String txt = result.getString("text");
-                System.out.println("Word " + txt);
+                System.out.println("Word in database is " + txt);
             }// while
 
             // STEP 4: Clean-up environment

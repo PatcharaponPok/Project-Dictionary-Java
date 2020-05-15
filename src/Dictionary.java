@@ -57,7 +57,7 @@ public class Dictionary {
             for (File temp : filesNames) {// loop list directory in path
                 if (temp.isDirectory()) { // check type direvtory or not
                     System.out.println("Entry "+ temp.getPath() + " Zipping to /Job-Java/Project/src/" + temp.getName() + ".zip");
-                    zipDirectory.zipDirectory("/Job-Java/Project/src/DirWord/" + temp.getName());// call funtion zip from class zip
+                    zipDirectory.zipDirectory("/Job-Java/Project/src/DirWord/" + temp.getName(),"/Job-Java/Project/src/FileZip/" + temp.getName());// call funtion zip from class zip
                     System.out.println("Finish to zip file: " + temp.getName() + ".zip");
                     ZipFile zip_file = new ZipFile("/Job-Java/Project/src/DirWord/" + temp.getName() + ".zip");
                     long Szip = zip_file.size();

@@ -10,9 +10,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
-    public void zipDirectory(String dirPath) {
+    public void zipDirectory(String dirPath, String zipPath) {
         Path sourceDir = Paths.get(dirPath); // Path source directory
-        String zipFileName = dirPath.concat(".zip"); // Path file for build zip
+        String zipFileName = zipPath.concat(".zip"); // Path file for build zip
         try {
             final ZipOutputStream zipFile = new ZipOutputStream(new FileOutputStream(zipFileName));
             Files.walkFileTree(sourceDir, new SimpleFileVisitor<Path>() { // walk in to folder in the form of a file tree

@@ -17,7 +17,7 @@ public class Dictionary {
         ArrayList<String> NameFile = new ArrayList<>();
         try {
             //ex.1 - 4
-            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/test.txt"));
+            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/words.txt"));
 
             int count = 1;
             String line;
@@ -78,7 +78,7 @@ public class Dictionary {
             //fl_same = 0 The first and last are not same, fl_same = 1 The first and last are the same
             //Numbercha = count charecter in word
             // ex.7.1
-            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/test.txt"));
+            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/words.txt"));
             ConnecDB con = new ConnecDB();
             String sql;
             int type;

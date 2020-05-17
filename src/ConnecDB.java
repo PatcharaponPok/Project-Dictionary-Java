@@ -51,7 +51,7 @@ public class ConnecDB {
         System.out.println("Connec Sucess");
     }
 
-    public void insert(String sql) throws Exception {
+    public void insert(ArrayList<String> sql) throws Exception {
         try {
             // STEP 1: Register JDBC driver
             Class.forName(JDBC_DRIVER);
@@ -62,7 +62,9 @@ public class ConnecDB {
             //STEP 3: Execute a query
             stmt = conn.createStatement();
 
-            stmt.executeUpdate("insert into word values ("+sql+")");
+            for (int i=0;i < sql.size();i++){
+                stmt.executeUpdate("insert into word values ("+sql.get(i)+")");
+            }
 
             // STEP 4: Clean-up environment
             stmt.close();
@@ -225,10 +227,10 @@ public class ConnecDB {
             stmt.executeUpdate(sql);
             sql = "select text from word";
             ResultSet result = stmt.executeQuery(sql);
-            while(result.next()){
-                String txt = result.getString("text");
-                System.out.println("Word in database is " + txt);
-            }// while
+//            while(result.next()){
+//                String txt = result.getString("text");
+//                System.out.println("Word in database is " + txt);
+//            }// while
 
             // STEP 4: Clean-up environment
             stmt.close();

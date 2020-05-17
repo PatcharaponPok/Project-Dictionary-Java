@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 public class Dictionary {
 
     public static void main(String[] args) throws Exception {
@@ -10,23 +11,26 @@ public class Dictionary {
         ArrayList<Long> Sizefolder = new ArrayList<>();
         ArrayList<Long> SizeZip = new ArrayList<>();
         ArrayList<String> NameFile = new ArrayList<>();
+        ArrayList<String> WordFromFile = new ArrayList<>();
+        ArrayList<String> sql = new ArrayList<>();
 
         try {
             //ex.1 - 4
-            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/word.txt"));
+            reader = new BufferedReader(new FileReader("src/words.txt"));
 
             int count = 1;
             String line;
 
             while((line = reader.readLine()) != null){
                 SetDirectory(line, count++);
+                WordFromFile.add(line);
             }//while read line in file
             reader.close();
             System.out.println("The operation is finished.");
             // finish code ex.1 -4
 
             //ex.5
-            File file = new File("/Job-Java/Project/src/DirWord/");
+            File file = new File("src/DirWord/");
             Report ReportStep = new Report();
             File[] filesNames = file.listFiles();
 
@@ -41,7 +45,9 @@ public class Dictionary {
                         //size = ReportStep.CalulateSize(dirs); // sum size file in folder
                         size = dirs.getTotalSpace();
                         NameFile.add(temp.getName());
-                        System.out.println("|\t"+ count++ + "\t|" + temp.getName() + "\t\t\t\t|" + ReportStep.FileSize(size) + "\t\t\t\t|");
+                        System.out.println("|\t"+ count++ + "\t|"
+                                + temp.getName() + "\t\t\t\t|"
+                                + ReportStep.FileSize(size) + "\t\t\t\t|");
                         Sizefolder.add(ReportStep.FileSize(size));
                     }
                 }
@@ -53,10 +59,15 @@ public class Dictionary {
             Zip zipDirectory = new Zip();
             for (File temp : filesNames) {// loop list directory in path
                 if (temp.isDirectory()) { // check type direvtory or not
-                    System.out.println("Entry "+ temp.getPath() + " Zipping to /Job-Java/Project/src/" + temp.getName() + ".zip");
-                    zipDirectory.zipDirectory("/Job-Java/Project/src/DirWord/" + temp.getName(),"/Job-Java/Project/src/FileZip/" + temp.getName());// call funtion zip from class zip
+                    System.out.println("Entry "+ temp.getPath()
+                            + " Zipping to src/"
+                            + temp.getName() + ".zip");
+                    zipDirectory.zipDirectory("src/DirWord/"
+                            + temp.getName(),"src/FileZip/"
+                            + temp.getName());// call funtion zip from class zip
                     System.out.println("Finish to zip file: " + temp.getName() + ".zip");
-                    File zip_file = new File("/Job-Java/Project/src/FileZip/" + temp.getName() + ".zip");
+                    File zip_file = new File("src/FileZip/"
+                            + temp.getName() + ".zip");//สร้างตัวแปรเก็บสตริง
                     long Szip = zip_file.getTotalSpace();
                     SizeZip.add(ReportStep.FileSize(Szip));
                 }// end if
@@ -65,7 +76,11 @@ public class Dictionary {
 
             ReportStep.GetReportSize(6);
             for(int i = 0; i < SizeZip.size(); i++){
-                System.out.println("|\t"+ i + "\t|" + NameFile.get(i) + "\t\t\t\t|" + Sizefolder.get(i) + "\t\t\t\t\t\t|" + SizeZip.get(i) + "\t\t\t\t\t|\t\t\t" + (100 * SizeZip.get(i) / Sizefolder.get(i)) + "\t\t\t\t\t|");
+                System.out.println("|\t"+ i + "\t|"
+                        + NameFile.get(i) + "\t\t\t\t|"
+                        + Sizefolder.get(i) + "\t\t\t\t\t\t|"
+                        + SizeZip.get(i) + "\t\t\t\t\t|\t\t\t"
+                        + (100 * SizeZip.get(i) / Sizefolder.get(i)) + "\t\t\t\t\t|");
             }
             System.out.println("---------------------------------------------------------------------------------------------------------------------");
             // finish ex.6
@@ -75,24 +90,22 @@ public class Dictionary {
             //fl_same = 0 The first and last are not same, fl_same = 1 The first and last are the same
             //Numbercha = count charecter in word
             // ex.7.1
-            reader = new BufferedReader(new FileReader("/Job-Java/Project/src/word.txt"));
+            //reader = new BufferedReader(new FileReader("src/test.txt"));
             ConnecDB con = new ConnecDB();
-            String sql;
             int type;
             //con.testConnect();
 
-            while((line = reader.readLine()) != null){
+            for(int i=0;i < WordFromFile.size();i++){
                 int fl_same = 0;
 
-                type = FindSame(line);
+                type = FindSame(WordFromFile.get(i));
 
-                if(line.charAt(0) == line.charAt(line.length() - 1)){
+                if(WordFromFile.get(i).charAt(0) == WordFromFile.get(i).charAt(WordFromFile.get(i).length() - 1)){
                     fl_same = 1;
                 }
-                sql = "NULL,'" + line + "'," + line.length() + "," + fl_same + "," + type;
-                con.insert(sql);
-            }//while read line in file
-            reader.close();
+                sql.add("NULL,'" + WordFromFile.get(i) + "'," + WordFromFile.get(i).length() + "," + fl_same + "," + type);
+            }
+            con.insert(sql);
             con.GetCountChar();
             //finish ex.7.1
 
@@ -122,7 +135,7 @@ public class Dictionary {
     private static void SetDirectory(String data, int count) throws FileNotFoundException {
         String word = data.toLowerCase();
         String firstF = word.substring(0,1); // substr for set directory
-        File firstL = new File("/Job-Java/Project/src/DirWord/"+firstF);
+        File firstL = new File("src/DirWord/"+firstF);
         //String executionPath = System.getProperty("user.dir");
         //BufferedWriter write;
 
@@ -134,11 +147,13 @@ public class Dictionary {
 
         if(word.length() > 1){
             String secondF = word.substring(1,2); // substr for set subdirectory
-            String SubPath = "/Job-Java/Project/src/DirWord/" + firstF + "/" + secondF;
+            String SubPath = "src/DirWord/" + firstF + "/" + secondF;
             File SubDiectory = new File(SubPath);
 
             SubDiectory.mkdirs();
-            PrintWriter WriteFile = new PrintWriter("/Job-Java/Project/src/DirWord/" + firstF + "/" + secondF + "/" + word + ".txt");
+            PrintWriter WriteFile = new PrintWriter("src/DirWord/" + firstF
+                    + "/" + secondF
+                    + "/" + word + ".txt");
 
             for(int i = 0; i < 100; i++){
                 WriteFile.write(word + ", ");
@@ -147,7 +162,9 @@ public class Dictionary {
             WriteFile.close();
             System.out.println("Save file successfully");
         }else{
-            PrintWriter WriteFile = new PrintWriter("/Job-Java/Project/src/DirWord/" + firstF + "/" + word + ".txt");
+            PrintWriter WriteFile = new PrintWriter("src/DirWord/"
+                    + firstF + "/"
+                    + word + ".txt");
 
             for(int i = 0; i < 100; i++){
                 WriteFile.write(word + ", ");
